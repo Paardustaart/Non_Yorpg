@@ -25,6 +25,7 @@ public class Game implements ApplicationListener {
 		
 		final TextButton button = new TextButton("Lekker spelen!", skin, "default");
 		
+		
 		button.setWidth(200f);
         button.setHeight(20f);
         button.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
