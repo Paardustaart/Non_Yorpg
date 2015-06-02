@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 public class Player extends Actor {
@@ -35,38 +33,35 @@ public class Player extends Actor {
 	}
 
 	private void handleInput() {
-		if (getActions().size == 0) {
 			moving = new MoveByAction();
 			moving.setDuration(0.5f);
 
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && getActions().size == 0) {
 
 				moving.setAmount(32f, 0f);
 				addAction(moving);
 
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && getActions().size == 0) {
 
 				moving.setAmount(-32f, 0f);
 				addAction(moving);
 
 			}
 
-			if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.UP) && getActions().size == 0) {
 
 				moving.setAmount(0f, 32f);
 				addAction(moving);
 
 			}
 
-			if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && getActions().size == 0) {
 
 				moving.setAmount(0f, -32f);
 				addAction(moving);
 
 			}
-
-		}
 	}
 
 }
