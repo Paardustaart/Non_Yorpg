@@ -1,6 +1,6 @@
 package nl.max.non_yorpg;
 
-import nl.max.non_yorpg.actors.Mario;
+import nl.max.non_yorpg.actors.Player;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -31,9 +31,10 @@ public class Game implements ApplicationListener {
         button.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
 
 		stage = new Stage(new ScreenViewport());
-		Mario actor = new Mario();
+		Player actor = new Player();
 		actor.setVisible(false);
 		stage.addActor(actor);
+		stage.setKeyboardFocus(actor);
 		stage.addActor(button);
 		Gdx.input.setInputProcessor(stage);
 		
