@@ -1,5 +1,9 @@
 package nl.max.non_yorpg.actors;
 
+import java.io.IOException;
+
+import nl.max.non_yorpg.network.GameClient;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 public class Player extends Actor {
 
+	public enum Direction { UP, DOWN, LEFT, RIGHT }
+	
 	private Texture texture;
 	private MoveByAction left, right, up, down;
+	private GameClient client;
 
 	public Player() {
-		
 		left = new MoveByAction();
 		left.setDuration(0.5f);
 		left.setAmount(-32f, 0f);
@@ -36,6 +42,12 @@ public class Player extends Actor {
 		setHeight(32);
 
 		setBounds(0, 0, getWidth(), getHeight());
+		
+		try {
+			client = new GameClient("localhost", 7777, 7778, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -51,22 +63,41 @@ public class Player extends Actor {
 
 	private void handleInput() {
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && getActions().size == 0) {
-			addAction(right);
-			right.restart();
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && getActions().size == 0) {
+			client.sendMoveRequest((int) this.getX(), (int) this.getY(), Direction.LEFT);
 		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && getActions().size == 0) {
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && getActions().size == 0) {
+			client.sendMoveRequest((int) this.getX(), (int) this.getY(), Direction.RIGHT);
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.UP) && getActions().size == 0) {
+			client.sendMoveRequest((int) this.getX(), (int) this.getY(), Direction.UP);
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && getActions().size == 0) {
+			client.sendMoveRequest((int) this.getX(), (int) this.getY(), Direction.DOWN);
+		}
+	}
+	
+	public void move(Direction direction) {
+		
+		if(direction == Direction.LEFT) {
 			addAction(left);
 			left.restart();
 		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.UP) && getActions().size == 0) {
+		else if(direction == Direction.RIGHT) {
+			addAction(right);
+			right.restart();
+		}
+		
+		else if(direction == Direction.UP) {
 			addAction(up);
 			up.restart();
 		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && getActions().size == 0) {
+		else if(direction == Direction.DOWN) {
 			addAction(down);
 			down.restart();
 		}

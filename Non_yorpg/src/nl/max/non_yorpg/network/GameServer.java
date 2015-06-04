@@ -2,6 +2,9 @@ package nl.max.non_yorpg.network;
 
 import java.io.IOException;
 
+import nl.max.non_yorpg.network.Shared.MoveRequest;
+import nl.max.non_yorpg.network.Shared.MoveResponse;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -31,6 +34,11 @@ public class GameServer {
 			
 			@Override
 			public void received(Connection connection, Object object) {
+				
+				if(object instanceof MoveRequest) {
+					MoveRequest request = (MoveRequest) object;
+					server.sendToAllTCP(new MoveResponse(connection.getID(), request.x, request.y, request.direction));
+				}
 				
 			}
 			

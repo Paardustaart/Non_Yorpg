@@ -1,6 +1,9 @@
 package nl.max.non_yorpg;
 
+import java.io.IOException;
+
 import nl.max.non_yorpg.actors.Player;
+import nl.max.non_yorpg.network.GameServer;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -14,9 +17,16 @@ public class Game implements ApplicationListener {
 	private Stage stage;
 	private Skin skin;
 	private Player actor;
+	private GameServer server;
 	
 	@Override
 	public void create() {
+		
+		try {
+			server = new GameServer(7777, 7778);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
 
