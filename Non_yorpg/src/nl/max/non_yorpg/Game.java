@@ -5,46 +5,29 @@ import nl.max.non_yorpg.actors.Player;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class Game implements ApplicationListener {
 
 	private Stage stage;
-	
 	private Skin skin;
+	private Player actor;
 	
 	@Override
 	public void create() {
 		
 		skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
-		
-		final TextButton button = new TextButton("Lekker spelen!", skin, "default");
-		
-		
-		button.setWidth(200f);
-        button.setHeight(20f);
-        button.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
 
 		stage = new Stage(new ScreenViewport());
-		Player actor = new Player();
-		actor.setVisible(false);
+		actor = new Player();
+		
 		stage.addActor(actor);
 		stage.setKeyboardFocus(actor);
-		stage.addActor(button);
+		
 		Gdx.input.setInputProcessor(stage);
 		
-        button.addListener(new ClickListener(){
-            @Override 
-            public void clicked(InputEvent event, float x, float y){
-                button.setVisible(false);
-                actor.setVisible(true);
-            }
-        });
 	}
 
 	@Override

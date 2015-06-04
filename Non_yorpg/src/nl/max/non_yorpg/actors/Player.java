@@ -9,11 +9,28 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 public class Player extends Actor {
 
-	private Texture tex;
-	private MoveByAction moving;
+	private Texture texture;
+	private MoveByAction left, right, up, down;
 
 	public Player() {
-		tex = new Texture(Gdx.files.internal("assets/img/sprite.bmp"));
+		
+		left = new MoveByAction();
+		left.setDuration(0.5f);
+		left.setAmount(-32f, 0f);
+		
+		right = new MoveByAction();
+		right.setDuration(0.5f);
+		right.setAmount(32f, 0f);
+		
+		up = new MoveByAction();
+		up.setDuration(0.5f);
+		up.setAmount(0f, 32f);
+		
+		down = new MoveByAction();
+		down.setDuration(0.5f);
+		down.setAmount(0f, -32f);
+		
+		texture = new Texture(Gdx.files.internal("assets/img/sprite.bmp"));
 
 		setWidth(32);
 		setHeight(32);
@@ -22,46 +39,37 @@ public class Player extends Actor {
 	}
 
 	@Override
-	public void act(float arg0) {
+	public void act(float delta) {
 		handleInput();
-		super.act(arg0);
+		super.act(delta);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(tex, getX(), getY());
+		batch.draw(texture, getX(), getY());
 	}
 
 	private void handleInput() {
-			moving = new MoveByAction();
-			moving.setDuration(0.5f);
-
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && getActions().size == 0) {
-
-				moving.setAmount(32f, 0f);
-				addAction(moving);
-
-			}
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && getActions().size == 0) {
-
-				moving.setAmount(-32f, 0f);
-				addAction(moving);
-
-			}
-
-			if (Gdx.input.isKeyPressed(Input.Keys.UP) && getActions().size == 0) {
-
-				moving.setAmount(0f, 32f);
-				addAction(moving);
-
-			}
-
-			if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && getActions().size == 0) {
-
-				moving.setAmount(0f, -32f);
-				addAction(moving);
-
-			}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && getActions().size == 0) {
+			addAction(right);
+			right.restart();
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && getActions().size == 0) {
+			addAction(left);
+			left.restart();
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.UP) && getActions().size == 0) {
+			addAction(up);
+			up.restart();
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && getActions().size == 0) {
+			addAction(down);
+			down.restart();
+		}
 	}
 
 }
